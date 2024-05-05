@@ -1,16 +1,9 @@
 import math
-import os
 from datetime import datetime
 import requests
-from dotenv import load_dotenv
 
-
-load_dotenv()
-
-API_KEY = os.getenv("API_KEY")
-
-def get_weather(city, api_key):
-    url = f'https://api.openweathermap.org/data/2.5/weather?q={city.lower()}&appid={api_key}&lang=ru&units=metric'
+def get_weather(city: str, api_key):
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&lang=ru&units=metric'
     responce = requests.get(url)
     
     data = responce.json()
@@ -41,8 +34,8 @@ def get_weather(city, api_key):
 
     text = (
     f"{city} сейчас:\n"
-    f"Температура {round(temp)} {ws}\n"
-    f"Ощущается как {round(feels)}\n"
+    f"Температура {round(temp, 1)} {ws}\n"
+    f"Ощущается как {round(feels, 1)}\n"
     f"Ветер {round(wind)} м\c\n"
     f"Давление {math.ceil(pressure/1.333)}\n"
     f"Влажность {humidity}\n"
@@ -51,6 +44,3 @@ def get_weather(city, api_key):
     )
 
     return text
-
-
-print(get_weather("брянск", API_KEY))
